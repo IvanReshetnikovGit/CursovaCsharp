@@ -16,6 +16,10 @@ namespace WebApplication1.Controllers
         {
             return View(_trainSchedule);
         }
+        public IActionResult Return()
+        {
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public IActionResult AddTrain(string destination, int peron,int hour,int minute,int second)
@@ -30,9 +34,33 @@ namespace WebApplication1.Controllers
             catch (ArgumentOutOfRangeException ex)
             {
                 ModelState.AddModelError(ex.ParamName, ex.Message);
-                return View("Index", _trainSchedule);
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index",_trainSchedule);    
+            return RedirectToAction("Index");
         }
+        public IActionResult FindTrainByDepartureTime(int hour,int minute,int second)
+        {
+            List<TrainInfo> res = new();
+            try
+            {
+                Time t = new(hour,minute,second);
+                res = _trainSchedule.FindTrainByDepartureTime(t);
+                if (res != null)
+                {
+                    ViewBag.res = res;
+                    return View("SearchResult");
+                }
+                return View("Index",_trainSchedule);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                ModelState.AddModelError(ex.ParamName, ex.Message);
+                return View("Index",_trainSchedule);
+            }
+        }   
+        // public IActionResult FindTrainByDestination(string destination)
+        // {
+        //     TrainInfo res = new();
+        // }
     }
 }

@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Reflection.Metadata;
 
 namespace WebApplication1.Models;
@@ -119,18 +120,31 @@ public class Time
     }
     public static bool operator>(Time left, Time right)
     {
-            if (left.Hour > right.Hour)
-            return true;
-        else if (left.Hour < right.Hour)
-            return false;
-        else
-        {
-            if (left.Minute > right.Minute)
-                return true;
-            else if (left.Minute < right.Minute)
-                return false;
-            else 
-                return left.Second > right.Second;
-        }
+        return !(left < right);
     }
+
+    public static bool operator ==(Time? left, Time? right)
+    {
+        if (ReferenceEquals(left, right)) return true;
+        if (left is null || right is null) return false;
+
+        return left.Hour == right.Hour && left.Minute == right.Minute && left.Second == right.Second;
+    }
+
+    public static bool operator !=(Time? left, Time? right)
+    {
+        return !(left == right);
+    }
+    public override bool Equals([System.Diagnostics.CodeAnalysis.AllowNull] object obj)
+    {
+        if (obj is not Time other) return false;
+
+        return Hour == other.Hour && Minute == other.Minute && Second == other.Second;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Hour, Minute, Second);
+    }
+
 }

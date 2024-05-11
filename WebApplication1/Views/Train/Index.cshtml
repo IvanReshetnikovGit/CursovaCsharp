@@ -1,6 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    .form-group1 {
+        display: inline-block;
+        margin-right: 10px; /* Adjust this value as needed for spacing */
+    }
+    .form-group2 {
+        display: inline-block;
+        margin-right: 10px; /* Adjust this value as needed for spacing */
+    }
+</style>
+
 
 @if (!ViewData.ModelState.IsValid)
 {
@@ -32,7 +43,7 @@
         @for (int i = 0; i < Model.TrainAmount; i++)
         {
             <tr>
-                <td>@i</td>
+                <td>@(i+1)</td>
                 <td>@Model.Schedule[i].GetDestination()</td>
                 <td>@Model.Schedule[i].GetDepartureTime().GetTime()</td>
                 <td>@Model.Schedule[i].GetPeron()</td>
@@ -43,31 +54,46 @@
 
 <h2>Add new train</h2>
 
-<form asp-action="AddTrain" method="post">
-    <div class="form-group">
+<form asp-action="AddTrain" method="post" style="margin-bottom: 20px;">
+    <div class="form-group1">
         <label for="destination">destination:</label>
         <input type="text" name="destination" class="form-control" required>
-        <span asp-validation="destination" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <br/>
+    <div class="form-group1">
         <label for="hour">hour:</label>
-        <input type="text" name="hour" class="form-control" required>
-        <span asp-validation="hour" class="text-danger"></span>
+        <input type="number" name="hour" class="form-control" required>
     </div>
-    <div class="form-group">
+    <div class="form-group1">
         <label for="minute">minute:</label>
-        <input type="text" name="minute" class="form-control" required>
-        <span asp-validation="minute" class="text-danger"></span>
+        <input type="number" name="minute" class="form-control" required>
     </div>
-    <div class="form-group">
+    <div class="form-group1">
         <label for="second">second:</label>
-        <input type="text" name="second" class="form-control" required>
-        <span asp-validation="second" class="text-danger"></span>
+        <input type="number" name="second" class="form-control" required>
     </div>
-    <div class="form-group">
+    <br/>
+    <div class="form-group1">
         <label for="peron">peron: </label>
-        <input type="text" name="peron" class="form-control" required>
-        <span asp-validation="peron" class="text-danger"></span>
+        <input type="number" name="peron" class="form-control " required>
     </div>
-    <button type="submit" class="btn btn-primary">Add train</button>
+    <button type="submit" class="btn btn-primary" style="margin-left: 5%">Add train</button>
+</form>
+
+<h2>Find Train</h2>
+
+<form asp-action="FindTrainByDepartureTime" method="get">
+    <div class="form-group1">
+        <label for="hour">Hour:</label>
+        <input type="number" name="hour" class="form-control" required>
+    </div>
+    <div class="form-group1">
+        <label for="minute">Minute:</label>
+        <input type="number" name="minute" class="form-control" required>
+    </div>
+    <div class="form-group1">
+        <label for="second">Second:</label>
+        <input type="number" name="second" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Find</button>
 </form>

@@ -56,21 +56,26 @@ public class TrainSchedule : TrainInfo
         }
         else
         {
-            throw new ArgumentException("No such train!");
+            throw new ArgumentOutOfRangeException(paramName: nameof(min),
+                message:"No such train");
         }
     }
 
 
-    public TrainInfo FindTrainByDepartureTime(Time t)
+    public List<TrainInfo> FindTrainByDepartureTime(Time t)
     {
+        List<TrainInfo> trains = new();
         foreach (var train in Schedule)
         {
             if(train.GetDepartureTime() == t)
             {
-                return train;
+                trains.Add(train);
             }
         }
-        throw new ArgumentException("No such train!");
+        if (trains.Count > 0)
+            return trains;
+        throw new ArgumentOutOfRangeException(paramName: nameof(t),
+            message:"No such train");
     }
     public void AddTrainInfos(TrainInfo t) => Schedule.Push(t);
 

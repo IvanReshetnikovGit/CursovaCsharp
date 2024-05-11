@@ -1,0 +1,25 @@
+<p>Results found:</p>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Train number</th>
+            <th>Destination</th>
+            <th>Departure time</th>
+            <th>Peron</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < ViewBag.res.Count; i++)
+        {
+            <tr>
+                <td>@(i+1)</td>
+                <td>@ViewBag.res[i].GetDestination()</td>
+                <td>@ViewBag.res[i].GetDepartureTime().GetTime()</td>
+                <td>@ViewBag.res[i].GetPeron()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form asp-action="Return">
+   <button type="submit" class="btn btn-primary">Return</button>
+</form>
