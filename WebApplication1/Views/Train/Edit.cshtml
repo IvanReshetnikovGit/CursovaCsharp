@@ -1,0 +1,70 @@
+<style>
+body {
+        background-color: #252525;
+        color: white;
+    }
+    th,td {
+        color: white;
+    }
+    .btn {
+        background-color: #7bdcb5;
+        border-color: #7bdcb5;
+    }
+    .btn-primary:hover {
+    background-color: #447a64;
+    border-color: #447a64;
+    }
+     fieldset {
+        padding: 20px;
+        border-radius: 30px;
+        background-color: #424242;
+    }
+    .form-group1 {
+        display: inline-block;
+        margin-right: 5px;
+    }
+    .button-container {
+        display: flex;
+        margin-top: 10px
+    }
+</style>
+<form asp-action="Edit" method="post">
+    <fieldset style="padding: 20px; border: 1px solid #ccc; position: relative;">
+        <legend style=" text-align: center; ">Edit</legend>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Train number</th>
+                    <th>Destination</th>
+                    <th>Departure time</th>
+                    <th>Peron</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.TrainAmount; i++)
+                {
+                    <tr>
+                        <td>@(i+1)</td>
+                        <td><input type="text" class="form-control" style="width: 210px;" name="destinations[@i]" value="@Model.Schedule[i].GetDestination()" /></td>
+                        <td>
+                            <div class="form-group1" style="width: 90px;">
+                                <input type="number" class="form-control" name="hours[@i]" value="@Model.Schedule[i].GetDepartureTime().GetHour()" min="0" max="23"/></div>
+                            <div class="form-group1" style="width: 90px;">
+                                <input type="number" class="form-control" name="minutes[@i]" value="@Model.Schedule[i].GetDepartureTime().GetMinute()" min="0" max="59"/></div>
+                            <div class="form-group1" style="width: 90px;">
+                                <input type="number" class="form-control" name="seconds[@i]" value="@Model.Schedule[i].GetDepartureTime().GetSecond()" min="0" max="59"/></div>
+                        </td>
+                        <td><input type="number" class="form-control" style="width: 210px;" name="perons[@i]" value="@Model.Schedule[i].GetPeron()" min="0" max="67"/></td>                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    <div class="button-container">
+        <form asp-action="Return">
+            <button type="submit" class="btn btn-primary" style="margin-left: 30px;">Cancel</button>
+        </form>
+        <button type="submit"class="btn btn-primary" style="margin-left: 15px;">Save & exit</button>
+    </div>
+</form>
+
+

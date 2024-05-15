@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Reflection.Metadata;
 
@@ -32,7 +33,18 @@ public class Time
         else
             Second = second;
     }
-
+    public int GetHour()
+    {
+        return Hour;
+    }
+    public int GetMinute()
+    {
+        return Minute;
+    }
+    public int GetSecond()
+    {
+        return Second;
+    }
     public Time(int hour, int minute,int second)
     {
         SetHour(hour);
@@ -57,6 +69,7 @@ public class Time
         Second = time.Second;
     }
     public Time(){}
+    
     public static Time operator +(Time left, Time right)
     {
         int newHour = left.Hour + right.Hour;
@@ -100,7 +113,15 @@ public class Time
     }
     public virtual string GetTime()
     {
-        return Hour + ":" + Minute + ":" + Second;
+        string hour = Hour.ToString(),minute = Minute.ToString(),second = Second.ToString();
+        if (Hour <= 9)
+            hour = "0" + Hour;  
+        if(Minute <= 9)
+            minute = "0" + Minute;
+        if(Second <= 9)
+            second = "0" + Second;
+    
+        return hour + ":" + minute + ":" + second;
     }
     public static bool operator<(Time left, Time right)
     {
@@ -146,5 +167,13 @@ public class Time
     {
         return HashCode.Combine(Hour, Minute, Second);
     }
-
+    public bool IsValid(Time other)
+    {
+        int thisTotalMinutes = Hour * 60 + Minute; 
+        int otherTotalMinutes = other.Hour * 60 + other.Minute; 
+        
+        int timeDifference = Math.Abs(thisTotalMinutes - otherTotalMinutes); 
+        
+        return timeDifference > 30;
+    }
 }

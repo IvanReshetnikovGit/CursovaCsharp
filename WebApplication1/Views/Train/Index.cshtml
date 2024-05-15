@@ -4,14 +4,44 @@
 <style>
     .form-group1 {
         display: inline-block;
-        margin-right: 10px; /* Adjust this value as needed for spacing */
+        margin-right: 5px; 
     }
     .form-group2 {
         display: inline-block;
-        margin-right: 10px; /* Adjust this value as needed for spacing */
+        margin-right: 5px; 
+    }
+    .block-container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1400px; 
+    }
+    .time {
+        width: 70px;
+    }
+    body {
+        background-color: #252525;
+        color: white;
+    }
+    th, td {
+        color: white;
+    }
+    fieldset {
+        padding: 20px;
+        border-radius: 30px; 
+        background-color: #424242;
+    }
+    .btn {
+        background-color: #7bdcb5;
+        border-color: #7bdcb5;
+    }
+    .btn-primary:hover {
+        background-color: #447a64;
+        border-color: #447a64; 
+    }
+     .button-container {
+        display: flex;
     }
 </style>
-
 
 @if (!ViewData.ModelState.IsValid)
 {
@@ -30,70 +60,97 @@
     </div>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Train number</th>
-            <th>Destination</th>
-            <th>Departure time</th>
-            <th>Peron</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.TrainAmount; i++)
-        {
-            <tr>
-                <td>@(i+1)</td>
-                <td>@Model.Schedule[i].GetDestination()</td>
-                <td>@Model.Schedule[i].GetDepartureTime().GetTime()</td>
-                <td>@Model.Schedule[i].GetPeron()</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="block-container" style="max-width: 1600px;">
+    <div style="width: 59%;">
+        <form asp-action="AddTrain" method="post" style="margin-bottom: 20px;">
+            <fieldset style="padding: 20px">
+                <legend>Add Train</legend>
+                <div style="margin-bottom: 10px;">
+                    <div class="form-group1" style="width: 210px;">
+                        <input type="text" name="destination" class="form-control" placeholder="destination" required>
+                    </div>
+                    <br/>
+                    <div class="form-group1" style="margin-top: 10px; width: 90px">
+                        <input type="number" name="hour" class="form-control" placeholder="hour" min="0" max="23" required>
+                    </div>
+                    <div class="form-group1" style="width: 90px">
+                        <input type="number" name="minute" class="form-control" placeholder="minute" min="0" max="59" required>
+                    </div>
+                    <div class="form-group1" style="width: 90px">
+                        <input type="number" name="second" class="form-control" placeholder="second" min="0" max="59" required>
+                    </div>
+                </div>
+                <div class="form-group1" style="width: 210px">
+                    <input type="number" name="peron" class="form-control " placeholder="peron" min="0" max="67" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add train</button>
+            </fieldset>
+        </form>
+        <form asp-action="FindTrainByDepartureTime" method="get">
+            <fieldset style="padding: 20px">
+                <legend>Find Train By Departure Time</legend>
+                <div class="form-group1" style="width: 90px">
+                    <input type="number" name="hour" class="form-control" placeholder="hour" min="0" max="23" required>
+                </div>
+                <div class="form-group1" style="width: 90px">
+                    <input type="number" name="minute" class="form-control" placeholder="minute" min="0" max="59" required>
+                </div>
+                <div class="form-group1" style="width: 90px">
+                    <input type="number" name="second" class="form-control" placeholder="second" min="0" max="59" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Find</button>
+            </fieldset>
+        </form>
+        <form asp-action="ClosestTrain" method="get" style="margin-top: 20px">
+            <fieldset style="padding: 20px">
+                <legend>Closest Train to</legend>
+                <div class="form-group1" style="width: 210px">
+                    <input type="text" name="destination" class="form-control" placeholder="destination" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Find</button>
+            </fieldset>
+        </form>
+        <fieldset style="padding: 20px; margin-top: 20px">
+            <legend>File management</legend>
+            <div class="button-container">
+                <form asp-action="WriteFile">
+                    <button type="submit" class="btn btn-primary">Write file</button>
+                </form>
+                <form asp-action="ReadFile">
+                    <button type="submit" class="btn btn-primary" style="margin-left: 15px">Read file</button>
+                </form>
+            </div>
+        </fieldset>
+    </div>
 
-<h2>Add new train</h2>
+    <div style="width: 40%;">
+        <fieldset style="padding: 20px; border: 1px solid #ccc; position: relative;">
+            <form asp-action="ToEdit" method="get">
+                <button type="submit" class="btn btn-primary" style="position: absolute; top: 0; right: 0; border-top-right-radius: 29px;">Edit</button>
+            </form>
+            <table class="table" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Destination</th>
+                        <th>Departure time</th>
+                        <th>Peron</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Schedule.Size(); i++)
+                    {
+                        <tr>
+                            <td>@(i+1)</td>
+                            <td>@Model.Schedule[i].GetDestination()</td>
+                            <td>@Model.Schedule[i].GetDepartureTime().GetTime()</td>
+                            <td>@Model.Schedule[i].GetPeron()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
 
-<form asp-action="AddTrain" method="post" style="margin-bottom: 20px;">
-    <div class="form-group1">
-        <label for="destination">destination:</label>
-        <input type="text" name="destination" class="form-control" required>
-    </div>
-    <br/>
-    <div class="form-group1">
-        <label for="hour">hour:</label>
-        <input type="number" name="hour" class="form-control" required>
-    </div>
-    <div class="form-group1">
-        <label for="minute">minute:</label>
-        <input type="number" name="minute" class="form-control" required>
-    </div>
-    <div class="form-group1">
-        <label for="second">second:</label>
-        <input type="number" name="second" class="form-control" required>
-    </div>
-    <br/>
-    <div class="form-group1">
-        <label for="peron">peron: </label>
-        <input type="number" name="peron" class="form-control " required>
-    </div>
-    <button type="submit" class="btn btn-primary" style="margin-left: 5%">Add train</button>
-</form>
+</div>
 
-<h2>Find Train</h2>
-
-<form asp-action="FindTrainByDepartureTime" method="get">
-    <div class="form-group1">
-        <label for="hour">Hour:</label>
-        <input type="number" name="hour" class="form-control" required>
-    </div>
-    <div class="form-group1">
-        <label for="minute">Minute:</label>
-        <input type="number" name="minute" class="form-control" required>
-    </div>
-    <div class="form-group1">
-        <label for="second">Second:</label>
-        <input type="number" name="second" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Find</button>
-</form>

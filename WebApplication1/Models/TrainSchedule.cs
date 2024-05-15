@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace WebApplication1.Models;
 
-public class TrainSchedule : TrainInfo
+public class TrainSchedule 
 {
     public int TrainAmount{ get; set; }
-    public VectorClass<TrainInfo> Schedule = new();
+    public VectorClass<TrainInfo> Schedule;
     public TrainSchedule()
     {
+        Schedule = new VectorClass<TrainInfo>();
         TrainAmount = 0;
     }
 
@@ -79,4 +80,18 @@ public class TrainSchedule : TrainInfo
     }
     public void AddTrainInfos(TrainInfo t) => Schedule.Push(t);
 
+    public override string ToString()
+    {
+        string objects = "";
+        for (int i = 0; i < TrainAmount; i++)
+        {
+            objects += Schedule[i].GetDestination().ToString() + "\n" 
+            + Schedule[i].GetDepartureTime().GetHour().ToString() + "\n"
+            + Schedule[i].GetDepartureTime().GetMinute().ToString() + "\n"
+            + Schedule[i].GetDepartureTime().GetSecond().ToString() + "\n"
+            + Schedule[i].GetPeron().ToString()+"\n";
+        } 
+        return  TrainAmount.ToString() + "\n" +  objects;
+    }
+    
 }

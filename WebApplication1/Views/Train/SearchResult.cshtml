@@ -1,4 +1,28 @@
-<p>Results found:</p>
+<style>
+body {
+        background-color: #252525;
+        color: white;
+    }
+    th,td {
+        color: white;
+    }
+    .btn {
+        background-color: #7bdcb5;
+        border-color: #7bdcb5;
+    }
+    .btn-primary:hover {
+    background-color: #447a64;
+    border-color: #447a64;
+    }
+    fieldset {
+        padding: 20px;
+        border-radius: 30px;
+        background-color: #424242;
+    }
+</style>
+
+<fieldset style="padding: 20px; border: 1px solid #ccc; position: relative;">
+    <legend style=" text-align: center; ">Search result</legend>
     <table class="table">
     <thead>
         <tr>
@@ -9,17 +33,28 @@
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < ViewBag.res.Count; i++)
+        @if(ViewBag.massive == true)
         {
-            <tr>
-                <td>@(i+1)</td>
-                <td>@ViewBag.res[i].GetDestination()</td>
-                <td>@ViewBag.res[i].GetDepartureTime().GetTime()</td>
-                <td>@ViewBag.res[i].GetPeron()</td>
-            </tr>
+            for (int i = 0; i < ViewBag.res.Count; i++)
+            {
+                <tr>
+                    <td>@(i+1)</td>
+                    <td>@ViewBag.res[i].GetDestination()</td>
+                    <td>@ViewBag.res[i].GetDepartureTime().GetTime()</td>
+                    <td>@ViewBag.res[i].GetPeron()</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <td>1</td>
+            <td>@ViewBag.res.GetDestination()</td>
+            <td>@ViewBag.res.GetDepartureTime().GetTime()</td>
+            <td>@ViewBag.res.GetPeron()</td>
         }
     </tbody>
 </table>
 <form asp-action="Return">
-   <button type="submit" class="btn btn-primary">Return</button>
+    <button type="submit" class="btn btn-primary">Return</button>
 </form>
+</fieldset>

@@ -4,12 +4,12 @@ namespace WebApplication1.Models;
 
 public class TrainInfo :  Time
 {
-    private string Destination{ get; set; }
+    private string? Destination{ get; set; }
     private Time DepartureTime{ get; set; }
     private int Peron{ get; set; }
     public TrainInfo(string destination, Time departureTime, int peron)
     {
-        Destination = destination;
+        SetDestination(destination);
         DepartureTime = departureTime;
         SetPeron(peron);
     }
@@ -21,7 +21,14 @@ public class TrainInfo :  Time
 
     public void SetDestination(string destination)
     {
-        Destination = destination ?? string.Empty;
+        if(destination.All(char.IsLetterOrDigit))
+        {
+            Destination = destination.ToUpper();
+        }
+        else
+        {
+            throw new ArgumentException(paramName: nameof(destination), message:"Desatination contains invalid characters.");
+        }
     }
     public void  SetDepartureTime(Time departureTime)
     {
@@ -49,6 +56,6 @@ public class TrainInfo :  Time
 
     public override string GetTime()  
     {
-        return $"{Destination} + {DepartureTime} + {Peron}";
-    }   
+        return $"{DepartureTime}" + "From TrainInfo\n";
+    }
 }

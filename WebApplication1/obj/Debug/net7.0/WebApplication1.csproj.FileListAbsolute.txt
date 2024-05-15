@@ -29,3 +29,4 @@
 /home/ivan/nltu/CursovaCsharp/WebApplication1/obj/Debug/net7.0/WebApplication1.pdb
 /home/ivan/nltu/CursovaCsharp/WebApplication1/obj/Debug/net7.0/WebApplication1.genruntimeconfig.cache
 /home/ivan/nltu/CursovaCsharp/WebApplication1/obj/Debug/net7.0/ref/WebApplication1.dll
+/home/ivan/nltu/CursovaCsharp/WebApplication1/bin/Debug/net7.0/schedule.json
